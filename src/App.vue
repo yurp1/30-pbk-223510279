@@ -39,30 +39,34 @@ export default {
 <style scoped>
 
 .container {
+  background-image: url("./assets/background.png");
+  background-size: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
+  color: white;
+  background-repeat: no-repeat;
   max-width: 600px;
   margin: 20px auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: white;
-  background-image: url("./assets/background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
+  
+ 
 }
 
 .todo-item {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   background-color: #f9f9f9;
+  padding: 10px;
   color: black;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+ 
+  
 }
 
 .completed {
   text-decoration: line-through;
-  color: #999;
+  color: grey;
 }
 
 input
