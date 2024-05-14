@@ -1,6 +1,6 @@
 <template>
   <div class="container1">
-    <nav class="navbar ">
+    <nav class="navbar">
       <button @click="toggleTodos" :class="{ 'active': todosActive }" class="navbar-brand btn btn-primary" style="color: white;">Todos</button>
       <button @click="togglePosts" :class="{ 'active': postsActive }" class="navbar-brand btn btn-primary" style="color: white;">Posts</button>
     </nav>
@@ -8,42 +8,44 @@
 
   <div v-if="todosActive">
     <div class="container">
-    <h1>JADWAL BULAN RAMADHAN</h1>
-    <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="kegiatan">
-    <div v-for="(todo, index) in todosToShow" :key="index" class="todo-item btn btn-danger" :class="{ 'completed': todo.completed }">
-      <input type="checkbox" v-model="todo.completed"> {{ todo.text }}
-      <button @click="deleteTodoConfirm(index)">DELETE</button>
+      <h1>JADWAL BULAN RAMADHAN</h1>
+      <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="kegiatan">
+      <div class="todo-list">
+        <div v-for="(todo, index) in todosToShow" :key="index" class="todo-item btn btn-danger" :class="{ 'completed': todo.completed }">
+          <input type="checkbox" v-model="todo.completed"> {{ todo.text }}
+          <button @click="deleteTodoConfirm(index)">DELETE</button>
+        </div>
+      </div>
+      <button class="filter" @click="toggleFilter">{{ filterButtonLabel }}</button>
     </div>
-    <button class="filter" @click="toggleFilter">{{ filterButtonLabel }}</button>
-  </div>
   </div>
   
   <div v-if="postsActive">
     <div class="contain">
-    <h2>Postingan User</h2>
-    <select v-model="selectedUser">
-      <option value="" selected>Pilih Username</option>
-      <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
-    </select>
-    <div v-if="selectedUser !== ''">
-      <div v-if="posts.length > 0">
-        <h3>{{ selectedUsername }}</h3>
-        <ul>
-          <li v-for="post in posts" :key="post.id">{{ post.title }}</li>
-        </ul>
-      </div>
-      <div v-else>
-        <p>Loading...</p>
+      <h2>Postingan User</h2>
+      <select v-model="selectedUser" class="select-box">
+        <option value="" selected>Pilih Username</option>
+        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
+      </select>
+      <div v-if="selectedUser !== ''">
+        <div v-if="posts.length > 0" class="post-list">
+          <h3>{{ selectedUsername }}</h3>
+          <div class="post-card" v-for="post in posts" :key="post.id">
+            <h4>{{ post.title }}</h4>
+            <p>{{ post.body }}</p>
+          </div>
+        </div>
+        <div v-else>
+          <p>Loading...</p>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
-
 
 const todosActive = ref(true);
 const postsActive = ref(false);
@@ -150,6 +152,8 @@ watch(selectedUser, fetchPosts);
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
 .navbar {
   position: fixed;
   top: 10%;
@@ -175,18 +179,43 @@ watch(selectedUser, fetchPosts);
   position: fixed;
   top: 30%;
   left: 30%;
+  height: 50%;
+  overflow-y: auto;
 }
 
-.contain{
-  left: 40%;
-  top: 30%;
+.todo-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.contain {
+  position: fixed;
+  top: 15%;
+  left: 25%;
+  width: 50%;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  height: 70%;
+  overflow-y: auto;
+}
+.contain h2{
+  color: black;
+  font-weight: bold;
+  font-family: "Poetsen One", sans-serif;
+}
+
+.post-list {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .container input {
   background-color: transparent;
   backdrop-filter: blur(5px);
 }
-.container input::placeholder{
+.container input::placeholder {
   color: white;
 }
 
@@ -221,7 +250,42 @@ input[type=submit] {
 }
 
 .filter {
-  margin-left: 5px;
+  margin-left: 14px;
 }
 
+.select-box {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.post-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  height: 50px;
+}
+
+.post-card h4 {
+  margin: 0 0 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.post-card p {
+  font-size: 11px;
+  margin: 0;
+  color: black;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
 </style>
